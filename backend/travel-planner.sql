@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 03, 2024 at 10:48 AM
+-- Generation Time: Jun 06, 2024 at 07:01 AM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -36,6 +36,7 @@ CREATE TABLE `tbl_bookings` (
   `email` varchar(225) NOT NULL,
   `booking_date` date NOT NULL,
   `status` tinyint(4) DEFAULT 0 COMMENT '0 = Processing, \r\n1 = Delivered, \r\n2 = Cancelled',
+  `payment` varchar(225) NOT NULL,
   `transfer_proof` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -67,10 +68,20 @@ CREATE TABLE `tbl_destinations` (
 
 CREATE TABLE `tbl_users` (
   `id_user` int(11) NOT NULL,
+  `name` varchar(225) NOT NULL,
+  `phone` varchar(225) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` tinyint(4) DEFAULT 0 COMMENT '0 = user , 1 = admin'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_users`
+--
+
+INSERT INTO `tbl_users` (`id_user`, `name`, `phone`, `email`, `password`, `role`) VALUES
+(10, 'Christiano Ronaldo', '081324527645', 'ronaldo7@gmail.com', '$2b$11$QJGClUsVlVUPNntIYyGsouxzW5r4DyiU5Hrs8M6.N71gl6uTXfvrq', 1),
+(11, 'Muichiro Tokito', '081365489342', 'tokiti@gmail.com', '$2b$11$14TAeWT44gNbUwHdT4SJaeEtPCM9BaOnc/NlnCF5aQ29FS3MZKB6W', 0);
 
 --
 -- Indexes for dumped tables
@@ -117,7 +128,7 @@ ALTER TABLE `tbl_destinations`
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- Constraints for dumped tables

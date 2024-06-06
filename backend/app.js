@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('dotenv').config();
+const auth = require('./router/authRouter');
 const user = require('./router/userRouter');
 
 //Express
@@ -22,7 +23,12 @@ const corsOptions = {
 // Terapkan middleware CORS dengan opsi yang telah ditentukan
 app.use(cors(corsOptions));
 
-app.use('/auth',user);
+//middleware cookie-parser
+app.use(cookieParser());
+
+//middleware rute
+app.use('/auth',auth);
+app.use('/user', user)
 
 //insisalisasi server
 app.listen(port, () => {

@@ -1,15 +1,19 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controller/userController');
-const {check} = require('express-validator');
+const {verifyAdmin, verifyToken, verifyUser} = require('../middleware/authMiddleware');
 
-router.post('/register', [
-    check('email').isEmail().withMessage('Email tidak valid'),
-    check('password').isLength({ min: 6 }).withMessage('Password harus memiliki minimal 6 karakter')
-], userController.register);
-
-router.get('/login', userController.login);
-
-
+//tambah admin
+router.post('/addAdmin', verifyAdmin, userController.createAdmin);
+//tambah user
+router.post('/addUser', verifyAdmin, userController.createUser);
+//update user
+router.put('/update/:id_user', verifyAdmin, userController.updateUser);
+//menghapus user
+router.delete('/delete/:id_user', verifyAdmin, userController.deleteUser)
+//Menampilkan semua user
+router.get('/', verifyAdmin, userController.getAlluser);
+//menampilkan user berdasarkan id
+router.get('/:id_user', verifyAdmin, userController.getIdUser);
 
 module.exports = router;
