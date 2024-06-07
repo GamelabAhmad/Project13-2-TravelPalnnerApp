@@ -4,7 +4,7 @@ const bookingController = require('../controller/bookingController');
 const {verifyAdmin, verifyUser ,verifyToken} = require('../middleware/authMiddleware');
 
 //Tambah Data Booking
-router.post('/booking', verifyToken ,bookingController.createBooking);
+router.post('/booking', verifyToken ,verifyUser , bookingController.createBooking);
 //Update Status Booking
 router.put('/updateBooking/:id', verifyAdmin, bookingController.updateBooking);
 //Delete Booking
@@ -16,7 +16,7 @@ router.get('/dashboard', verifyAdmin, bookingController.getAllBookings);
 //Menampilkan Data Booking untuk halaman order paket trip
 router.get('/order-paket-trip', verifyAdmin, bookingController.getAllBookings2);
 //Menampilkan Data Booking berdasarkan id
-router.get('/order-paket-trip/:id', verifyAdmin, bookingController.getIdBookings);
+router.get('/order-paket-trip/:id', verifyAdmin, bookingController.getIdBooking);
 
 
 module.exports = router;

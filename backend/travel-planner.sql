@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 06, 2024 at 07:01 AM
+-- Generation Time: Jun 07, 2024 at 03:20 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 7.4.33
 
@@ -40,6 +40,14 @@ CREATE TABLE `tbl_bookings` (
   `transfer_proof` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_bookings`
+--
+
+INSERT INTO `tbl_bookings` (`id_booking`, `id_destinations`, `id_user`, `name`, `phone`, `email`, `booking_date`, `status`, `payment`, `transfer_proof`) VALUES
+(2, 1, 15, 'Alvaro', '081234567890', 'alvaro@example.com', '2024-12-31', 1, 'Gopay', '1'),
+(3, 1, 12, 'John Doe', '081234567890', 'john.doe@example.com', '2023-06-01', 0, 'bank transfer', 'transfer_proof\\transfer_proof_1717733274598.jpg');
+
 -- --------------------------------------------------------
 
 --
@@ -60,6 +68,43 @@ CREATE TABLE `tbl_destinations` (
   `status` tinyint(4) DEFAULT 0 COMMENT '0 = draft , 1 = published'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `tbl_destinations`
+--
+
+INSERT INTO `tbl_destinations` (`id_destination`, `destination_name`, `location`, `price`, `duration`, `trip_type`, `time`, `equipment_suggestions`, `description`, `image`, `status`) VALUES
+(1, 'a', 'a', 900000, 'a', 'a', 'a', 'a,a,a,a,a,a,a,a,a,a', 'affsfdsxzcxvsd', 'asfcfdvrerfgfdgbfbdf', 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `tbl_trip`
+--
+
+CREATE TABLE `tbl_trip` (
+  `id` int(11) NOT NULL,
+  `nama_destinasi` varchar(255) DEFAULT NULL,
+  `lokasi` varchar(255) DEFAULT NULL,
+  `durasi` int(11) DEFAULT NULL,
+  `harga` decimal(10,2) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `tbl_trip`
+--
+
+INSERT INTO `tbl_trip` (`id`, `nama_destinasi`, `lokasi`, `durasi`, `harga`) VALUES
+(1, 'Kelingking Beach', 'Nusa Penida Bali, Indonesia', 2, '1200000.00'),
+(2, 'Pulau Komodo', 'NTB, Indonesia', 2, '1500000.00'),
+(3, 'Candi Borobudur', 'Magelang, Indonesia', 1, '400000.00'),
+(4, 'Pantai Gunungkidul', 'Yogyakarta, Indonesia', 1, '300000.00'),
+(5, 'Gunung Bromo', 'Bromo, Indonesia', 1, '350000.00'),
+(6, 'Kawah Ijen', 'Banyuwangi, Indonesia', 2, '1200000.00'),
+(7, 'Kuta Beach', 'Nusa Penida Bali, Indonesia', 2, '800000.00'),
+(8, 'Wisata Dieng', 'Wonosobo, Indonesia', 1, '300000.00'),
+(9, 'Raja Ampat', 'Papua Barat, Indonesia', 3, '2000000.00'),
+(10, 'Danau Toba', 'Sumatera Utara, Indonesia', 2, '1000000.00');
+
 -- --------------------------------------------------------
 
 --
@@ -70,6 +115,7 @@ CREATE TABLE `tbl_users` (
   `id_user` int(11) NOT NULL,
   `name` varchar(225) NOT NULL,
   `phone` varchar(225) NOT NULL,
+  `address` varchar(225) NOT NULL,
   `email` varchar(255) NOT NULL,
   `password` varchar(255) NOT NULL,
   `role` tinyint(4) DEFAULT 0 COMMENT '0 = user , 1 = admin'
@@ -79,9 +125,11 @@ CREATE TABLE `tbl_users` (
 -- Dumping data for table `tbl_users`
 --
 
-INSERT INTO `tbl_users` (`id_user`, `name`, `phone`, `email`, `password`, `role`) VALUES
-(10, 'Christiano Ronaldo', '081324527645', 'ronaldo7@gmail.com', '$2b$11$QJGClUsVlVUPNntIYyGsouxzW5r4DyiU5Hrs8M6.N71gl6uTXfvrq', 1),
-(11, 'Muichiro Tokito', '081365489342', 'tokiti@gmail.com', '$2b$11$14TAeWT44gNbUwHdT4SJaeEtPCM9BaOnc/NlnCF5aQ29FS3MZKB6W', 0);
+INSERT INTO `tbl_users` (`id_user`, `name`, `phone`, `address`, `email`, `password`, `role`) VALUES
+(12, 'John Doe', '081234567890', 'Jl. Merdeka No.123, Jakarta', 'john.doe@example.com', '$2b$11$xectOWpn6BLv5/JFjOTtj.ueuKG/wE/4PoGrewGyX2xlaJ9Kyq3Cq', 0),
+(13, 'Muichiro Tokito', '0813765389102', 'Jl. Saitama No.123, Jepang', 'tokito@gmail.com', '$2b$11$XbNTD7zqQRCiDUXXUBkLo.H0KkN2J64rEFCuBeqViqY7K3LX732E.', 1),
+(14, 'frieren', '081309005612', 'Jl. sousou no frieren No.123, Jepang', 'frieren@gmail.com', '$2b$11$7ygyEp3YKnsU/MM32JFh8.fZFDQUdhBesHVR9R/GOcmMVyi/NkQTa', 1),
+(15, 'Alvaro', '081234567890', 'Jl. Merdeka No.123, Jakarta', 'alvaro@example.com', '$2b$11$Tk9cUUCtKbiQ1yBk35s.0Ol0AHDU6db9RHeRFfMcgLn//RYXnoZvy', 0);
 
 --
 -- Indexes for dumped tables
@@ -92,14 +140,20 @@ INSERT INTO `tbl_users` (`id_user`, `name`, `phone`, `email`, `password`, `role`
 --
 ALTER TABLE `tbl_bookings`
   ADD PRIMARY KEY (`id_booking`),
-  ADD KEY `destination_id` (`id_destinations`),
-  ADD KEY `id_user` (`id_user`);
+  ADD KEY `id_user` (`id_user`),
+  ADD KEY `id_destinations` (`id_destinations`);
 
 --
 -- Indexes for table `tbl_destinations`
 --
 ALTER TABLE `tbl_destinations`
   ADD PRIMARY KEY (`id_destination`);
+
+--
+-- Indexes for table `tbl_trip`
+--
+ALTER TABLE `tbl_trip`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `tbl_users`
@@ -116,19 +170,25 @@ ALTER TABLE `tbl_users`
 -- AUTO_INCREMENT for table `tbl_bookings`
 --
 ALTER TABLE `tbl_bookings`
-  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `tbl_destinations`
 --
 ALTER TABLE `tbl_destinations`
-  MODIFY `id_destination` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id_destination` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `tbl_trip`
+--
+ALTER TABLE `tbl_trip`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT for table `tbl_users`
 --
 ALTER TABLE `tbl_users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- Constraints for dumped tables
@@ -138,8 +198,8 @@ ALTER TABLE `tbl_users`
 -- Constraints for table `tbl_bookings`
 --
 ALTER TABLE `tbl_bookings`
-  ADD CONSTRAINT `tbl_bookings_ibfk_1` FOREIGN KEY (`id_destinations`) REFERENCES `tbl_destinations` (`id_destination`),
-  ADD CONSTRAINT `tbl_bookings_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `tbl_users` (`id_user`);
+  ADD CONSTRAINT `tbl_bookings_ibfk_2` FOREIGN KEY (`id_user`) REFERENCES `tbl_users` (`id_user`),
+  ADD CONSTRAINT `tbl_bookings_ibfk_3` FOREIGN KEY (`id_destinations`) REFERENCES `tbl_trip` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

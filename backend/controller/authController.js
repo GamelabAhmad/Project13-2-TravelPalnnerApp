@@ -99,6 +99,9 @@ exports.login = async (req,res) => {
                     message: message,
                     data: {
                         id_user: user.id_user, 
+                        name: user.name, 
+                        phone: user.phone, 
+                        address: user.address, 
                         email: user.email , 
                         role: user.role
                     },

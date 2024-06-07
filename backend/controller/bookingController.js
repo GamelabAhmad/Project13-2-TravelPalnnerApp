@@ -7,7 +7,7 @@ require('dotenv').config();
 const storage = multer.diskStorage({
     destination: './transfer_proof',
     filename: (req,file,callback) => {
-        callback(null, file.fieldname + '_' + Date.now() +path.extname(file.originalname));
+        callback(null, "transfer_proof" + '_' + Date.now() +path.extname(file.originalname));
     }
 });
 
@@ -70,9 +70,9 @@ exports.createBooking = async (req, res) => {
 exports.getAllBookings = async (req,res) => {
     try {
         //sql
-        let sql = await  `SELECT tbl_destinations.image, tbl_destinations.destination_name, tbl_users.name, tbl_bookings.status, tbl_bookings.booking_date 
-                    FROM tbl_bookings, tbl_destinations, tbl_users 
-                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_destinations.id_destination`
+        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_users.name, tbl_bookings.status, tbl_bookings.booking_date 
+                    FROM tbl_bookings, tbl_trip, tbl_users 
+                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_trip.id`
 
         //eksekusi query 
         db.query(sql, (error,result) => {
@@ -93,10 +93,9 @@ exports.getAllBookings = async (req,res) => {
                 }
                 return {
                     id_booking: dashboard.id_booking,
-                    id_destinations: dashboard.destinations,
+                    id_destinations: dashboard.id,
                     id_user: dashboard.id_user,
-                    image: dashboard.image,
-                    destination_name: dashboard.destination_name,
+                    destination_name: dashboard.nama_destinasi,
                     name: dashboard.name,
                     status: status,
                     booking_date: dashboard.booking_date,
@@ -105,7 +104,7 @@ exports.getAllBookings = async (req,res) => {
             });
 
             res.status(200).json({
-                message: "Menampilkan data booking untuk halama dashboard",
+                message: "Menampilkan data booking untuk halaman dashboard",
                 data:data
             });
 
@@ -120,9 +119,9 @@ exports.getAllBookings = async (req,res) => {
 exports.getAllBookings2 = async (req,res) => {
     try {
         //sql
-        let sql = await  `SELECT tbl_destinations.image, tbl_destinations.destination_name, tbl_users.name, tbl_bookings.payment, tbl_destinations.price ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
-                    FROM tbl_bookings, tbl_destinations, tbl_users 
-                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_destinations.id_destination`
+        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_users.name, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
+                    FROM tbl_bookings, tbl_trip, tbl_users 
+                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_trip.id`
 
         //eksekusi query 
         db.query(sql, (error,result) => {
@@ -142,8 +141,7 @@ exports.getAllBookings2 = async (req,res) => {
                     status = " Cancelled ";
                 }
                 return {
-                    image: dashboard.image,
-                    destination_name: dashboard.destination_name,
+                    destination_name: dashboard.nama_destinasi,
                     name: dashboard.name,
                     payment: dashboard.payment,
                     price: dashboard.price,
@@ -167,14 +165,14 @@ exports.getAllBookings2 = async (req,res) => {
 }
 
 //mengambil data booking berdasarkan id booking untuk halaman order paket trip
-exports.getIdBookings = async (req,res) => {
+exports.getIdBooking = async (req,res) => {
     id = req.params.id;
 
     try {
         //sql
-        let sql = await  `SELECT tbl_destinations.image, tbl_destinations.destination_name, tbl_users.name, tbl_users.phone, tbl_users.address, tbl_users.email, tbl_bookings.payment, tbl_destinations.price ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
-                    FROM tbl_bookings, tbl_destinations, tbl_users 
-                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_destinations.id_destination AND id_booking = ?`
+        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_users.name, tbl_users.phone, tbl_users.address, tbl_users.email, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
+                    FROM tbl_bookings, tbl_trip, tbl_users 
+                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_trip.id AND id_booking = ?`
 
         //eksekusi query 
         db.query(sql, id ,(error,result) => {
@@ -194,14 +192,13 @@ exports.getIdBookings = async (req,res) => {
                     status = " Cancelled ";
                 }
                 return {
-                    image: dashboard.image,
-                    destination_name: dashboard.destination_name,
+                    destination_name: dashboard.nama_Destinasi,
                     name: dashboard.name,
                     phone: dashboard.phone,
                     address: dashboard.address,
                     email: dashboard.email,
                     payment: dashboard.payment,
-                    price: dashboard.price,
+                    price: dashboard.harga,
                     status: status,
                     booking_date: dashboard.booking_date,
                     transfer_proof: dashboard.transfer_proof,
@@ -227,9 +224,9 @@ exports.getIdBookingsUser = async (req,res) => {
 
     try {
         //sql
-        let sql = await  `SELECT tbl_destinations.image, tbl_destinations.destination_name, tbl_users.name, tbl_users.phone, tbl_users.address, tbl_users.email, tbl_bookings.payment, tbl_destinations.price ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
-                    FROM tbl_bookings, tbl_destinations, tbl_users 
-                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_destinations.id_destination AND tbl_bookings.id_user = ?`
+        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_users.name, tbl_users.phone, tbl_users.address, tbl_users.email, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
+                    FROM tbl_bookings, tbl_trip, tbl_users 
+                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_trip.id AND tbl_bookings.id_user = ?`
 
         //eksekusi query 
         db.query(sql, id ,(error,result) => {
@@ -249,14 +246,13 @@ exports.getIdBookingsUser = async (req,res) => {
                     status = " Cancelled ";
                 }
                 return {
-                    image: dashboard.image,
-                    destination_name: dashboard.destination_name,
+                    destination_name: dashboard.nama_Destinasi,
                     name: dashboard.name,
                     phone: dashboard.phone,
                     address: dashboard.address,
                     email: dashboard.email,
                     payment: dashboard.payment,
-                    price: dashboard.price,
+                    price: dashboard.harga,
                     status: status,
                     booking_date: dashboard.booking_date,
                     transfer_proof: dashboard.transfer_proof,
