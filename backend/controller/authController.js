@@ -8,12 +8,14 @@ exports.register = async (req,res) => {
         //request body
         const name = req.body.name;
         const phone = req.body.phone;
+        const address = req.body.address;
         const email = req.body.email;
         const password = req.body.password;
         const hashPassword = await bcrypt.hash(password, 11);
         const values = {
             name: name,
             phone: phone,
+            address: address,
             email: email,
             password: hashPassword,
         }
@@ -96,7 +98,7 @@ exports.login = async (req,res) => {
                 }).status(200).json({
                     message: message,
                     data: {
-                        userID: user.id_user, 
+                        id_user: user.id_user, 
                         email: user.email , 
                         role: user.role
                     },

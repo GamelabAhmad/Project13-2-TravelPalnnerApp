@@ -7,12 +7,14 @@ exports.createAdmin = async (req,res) => {
         //request body
         const name = req.body.name;
         const phone = req.body.phone;
+        const address = req.body.address;
         const email = req.body.email;
         const password = req.body.password;
         const hashPassword = await bcrypt.hash(password, 11);
         const values = {
             name: name,
             phone: phone,
+            address: address,
             email: email,
             password: hashPassword,
             role: 1,
@@ -46,11 +48,13 @@ exports.createUser = async (req,res) => {
         const name = req.body.name;
         const phone = req.body.phone;
         const email = req.body.email;
+        const address = req.body.address;
         const password = req.body.password;
         const hashPassword = await bcrypt.hash(password, 11);
         const values = {
             name: name,
             phone: phone,
+            address: address,
             email: email,
             password: hashPassword,
         }
@@ -107,6 +111,7 @@ exports.getAlluser = async (req,res) => {
                     id_user: user.id_user,
                     name: user.name,
                     phone: user.phone,
+                    address: user.address,
                     email: user.email,
                     password: user.password,
                     role: roleName
@@ -153,6 +158,7 @@ exports.getIdUser = async (req,res) => {
             const name = user.name;
             const id_user = user.id_user;
             const phone = user.phone;
+            const address = user.address;
             const email = user.email;
             const password = user.password;
 
@@ -172,6 +178,7 @@ exports.getIdUser = async (req,res) => {
                     id_user: id_user,
                     name: name,
                     phone: phone,
+                    address: address,
                     email: email,
                     password: password,
                     role: roleName
@@ -190,14 +197,18 @@ exports.updateUser = async (req,res) => {
         const id = req.params.id_user;
         const name = req.body.name;
         const phone = req.body.phone;
+        const address = req.body.address;
         const email = req.body.email;
         const password = req.body.password;
+        const role = req.body.role;
         const hashPassword = await bcrypt.hash(password, 11);
         const values = {
             name: name,
             phone: phone,
+            address: address,
             email: email,
             password: hashPassword,
+            role: role
         }
         //sql
         let sql = await `UPDATE tbl_users set ? WHERE id_user = ?`;
