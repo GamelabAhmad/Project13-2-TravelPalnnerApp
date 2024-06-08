@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controller/authController');
 const {check, validationResult} = require('express-validator');
+const { verifyToken } = require('../middleware/verifyToken');
 
 router.post('/register', [
     check('email').isEmail().withMessage('Email tidak valid'),
@@ -18,6 +19,11 @@ router.post('/register', [
 
 router.get('/login', authController.login);
 
+// Rute untuk Google OAuth
+router.get('/google', authController.loginWithGoogle);
+router.get('/google/callback', authController.googleCallback);
 
+// Rute yang membutuhkan verifikasi token
+router.get('/profile', verifyToken, authController.protectedRoute);
 
 module.exports = router;
