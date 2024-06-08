@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authController = require('../controller/authController');
 const {check, validationResult} = require('express-validator');
-const { verifyToken } = require('../middleware/verifyToken');
+const { verifyToken } = require('../middleware/authMiddleware');
 
 router.post('/register', [
     check('email').isEmail().withMessage('Email tidak valid'),
