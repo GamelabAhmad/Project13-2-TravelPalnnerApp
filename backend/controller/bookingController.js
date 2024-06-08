@@ -170,7 +170,7 @@ exports.getIdBooking = async (req,res) => {
 
     try {
         //sql
-        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_users.name, tbl_users.phone, tbl_users.address, tbl_users.email, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
+        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_users.name, tbl_bookings.phone, tbl_bookings.address, tbl_users.email, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
                     FROM tbl_bookings, tbl_trip, tbl_users 
                     WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_trip.id AND id_booking = ?`
 
@@ -224,7 +224,7 @@ exports.getIdBookingsUser = async (req,res) => {
 
     try {
         //sql
-        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_users.name, tbl_users.phone, tbl_users.address, tbl_users.email, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
+        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_users.name, tbl_bookings.phone, tbl_bookings.address, tbl_users.email, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
                     FROM tbl_bookings, tbl_trip, tbl_users 
                     WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_trip.id AND tbl_bookings.id_user = ?`
 
@@ -326,3 +326,4 @@ exports.deleteBooking = async (req,res) => {
         res.status(500).json({error: error.message});
     }
 }
+
