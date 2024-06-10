@@ -2,6 +2,7 @@ const multer = require('multer');
 const path = require('path');
 const db = require('../model/connection');
 require('dotenv').config();
+const fs = require('fs');
 
 //inisialisasi multer
 const storage = multer.diskStorage({
@@ -302,28 +303,50 @@ exports.updateBooking = async (req,res) => {
 }
 
 //delete booking
-exports.deleteBooking = async (req,res) => {
+exports.deleteBooking = async (req, res) => {
     let id = req.params.id;
 
     try {
-        //sql
-        let sql = `DELETE FROM tbl_bookings WHERE id_booking = ?`;
-
-        //eksekusi query
-        db.query(sql, id, (error,result) => {
+        // Ambil jalur file dari database
+        let sqlGetFilePath = `SELECT transfer_proof FROM tbl_bookings WHERE id_booking = ?`;
+        db.query(sqlGetFilePath, id, (error, result) => {
             if (error) {
-                console.log("Terjadi Error di deleteBooking controller", error);
+                console.log("Terjadi Error di deleteBooking controller saat mengambil jalur file", error);
                 return res.status(500).json({ error: error.message });
-
             }
 
-            res.status(200).json({
-                message: `Berhasil menghapus booking pada id_booking = ${id}`,
-                data: result
+            if (result.length === 0) {
+                return res.status(404).json({ message: 'Booking tidak ditemukan' });
+            }
+
+            const filePath = result[0].transfer_proof;
+
+            // Hapus file dari sistem file
+            fs.unlink(filePath, (err) => {
+                if (err) {
+                    console.log("Terjadi Error saat menghapus file", err);
+                    return res.status(500).json({ error: err.message });
+                }
+
+                //sql untuk menghapus data booking
+                let sqlDeleteBooking = `DELETE FROM tbl_bookings WHERE id_booking = ?`;
+
+                //eksekusi query untuk menghapus data booking
+                db.query(sqlDeleteBooking, id, (error, result) => {
+                    if (error) {
+                        console.log("Terjadi Error di deleteBooking controller", error);
+                        return res.status(500).json({ error: error.message });
+                    }
+
+                    res.status(200).json({
+                        message: `Berhasil menghapus booking pada id_booking = ${id}`,
+                        data: result
+                    });
+                });
             });
-        })
+        });
     } catch (error) {
-        res.status(500).json({error: error.message});
+        res.status(500).json({ error: error.message });
     }
-}
+};
 

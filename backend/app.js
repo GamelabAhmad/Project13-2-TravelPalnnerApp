@@ -19,7 +19,8 @@ const port = process.env.port || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use('/transfer_proof', express.static(path.join(__dirname, 'transfer_proof')));
+
 
 // Konfigurasi CORS 
 const corsOptions = {

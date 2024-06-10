@@ -12,7 +12,7 @@ router.put('/update/:id_user', verifyAdmin, userController.updateUser);
 //menghapus user
 router.delete('/delete/:id_user', verifyAdmin, userController.deleteUser)
 //Menampilkan semua user
-router.get('/', verifyAdmin, userController.getAlluser);
+router.get('/user', verifyAdmin, userController.getAlluser);
 //menampilkan user berdasarkan id
 router.get('/:id_user', verifyAdmin, userController.getIdUser);
 
