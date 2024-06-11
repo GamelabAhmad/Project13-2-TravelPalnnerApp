@@ -26,4 +26,7 @@ router.get('/google/callback', authController.googleCallback);
 // Rute yang membutuhkan verifikasi token
 router.get('/profile', verifyToken, authController.protectedRoute);
 
+//Rute untuk logout
+router.get('/logout', authController.logout);
+
 module.exports = router;

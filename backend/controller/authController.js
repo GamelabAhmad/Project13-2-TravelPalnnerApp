@@ -2,6 +2,7 @@ const bcrypt = require('bcrypt');
 const db = require('../model/connection');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
+const {verifyToken} = require('../middleware/authMiddleware');
 require('dotenv').config();
 
 exports.register = async (req,res) => {
@@ -162,3 +163,12 @@ exports.protectedRoute = (req, res) => {
         user: req.user
     });
 };
+
+exports.logout = (req,res) => {
+    res.clearCookie('accessToken');
+
+    res.status(200).json({
+        message: "Berhasil logout dan menghapus cookie"
+    })
+
+}
