@@ -9,6 +9,7 @@ const auth = require('./router/authRouter');
 const user = require('./router/userRouter');
 const booking = require('./router/bookingRouter');
 const forgotPassword = require('./router/forgotPasswordRouter');
+const destination = require('./router/destinationRouter');
 const path = require('path');
 
 //Express
@@ -58,6 +59,7 @@ app.use('/auth',auth);
 app.use('/user', user);
 app.use('/booking', booking);
 app.use('/forgotPassword', forgotPassword);
+app.use('/destination', destination);
 
 
 //insisalisasi server
