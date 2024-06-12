@@ -32,19 +32,17 @@ exports.createBooking = async (req, res) => {
             const id_destinations = req.body.id_destinations;
             const name = req.body.name;
             const phone = req.body.phone;
-            const email = req.body.email;
+            const address = req.body.address;
             const booking_date = req.body.booking_date;
-            const payment = req.body.payment;
             const id_user = req.user.userID; // Ambil id_user dari token
 
             const values = {
                 id_destinations: id_destinations,
                 id_user: id_user,
                 name: name,
+                address: address,
                 phone: phone,
-                email: email,
                 booking_date: booking_date,
-                payment: payment,
                 transfer_proof: req.file.path
             };
 
@@ -71,9 +69,11 @@ exports.createBooking = async (req, res) => {
 exports.getAllBookings = async (req,res) => {
     try {
         //sql
-        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_bookings.name, tbl_bookings.status, tbl_bookings.booking_date 
-                    FROM tbl_bookings, tbl_trip
-                    WHERE tbl_bookings.id_destinations = tbl_trip.id`
+        let sql = await  `SELECT tbl_destination.image_url, tbl_destination.name, tbl_destination.price, 
+         tbl_bookings.id_booking, tbl_bookings.id_user, tbl_bookings.id_destinations, tbl_users.name, tbl_bookings.phone,
+         tbl_bookings.address, tbl_bookings.booking_date, tbl_bookings.status, tbl_bookings.transfer_proof  
+         FROM tbl_destination, tbl_bookings, tbl_users
+         WHERE tbl_destination.id = tbl_bookings.id_destinations AND tbl_bookings.id_user = tbl_users.id_user`
 
         //eksekusi query 
         db.query(sql, (error,result) => {
@@ -82,25 +82,28 @@ exports.getAllBookings = async (req,res) => {
                 return res.status(500).json({ error: error.message });
             }
 
-            // Transform results
-            const data = result.map(dashboard => {
+            const data = result.map(booking => {
                 let status;
-                if (dashboard.status === 0) {
+                if (booking.status === 0) {
                     status = "Processing";
-                } else if (dashboard.status === 1) {
+                } else if (booking.status === 1) {
                     status = "Delivered";
-                }else if (dashboard.status === 2) {
-                    status = " Cancelled ";
+                } else if (booking.status === 2) {
+                    status = "Cancelled";
                 }
                 return {
-                    id_booking: dashboard.id_booking,
-                    id_destinations: dashboard.id,
-                    id_user: dashboard.id_user,
-                    destination_name: dashboard.nama_destinasi,
-                    name: dashboard.name,
+                    id_booking: booking.id_booking,
+                    id_user: booking.id_user,
+                    id_destination: booking.id_destinations,
+                    destination_name: booking.name, 
+                    destination_image: booking.image, 
+                    destination_price: booking.price, 
+                    name: booking.name,
+                    phone: booking.phone,
+                    address: booking.address,
+                    booking_date: booking.booking_date,
                     status: status,
-                    booking_date: dashboard.booking_date,
-                    
+                    transfer_proof: booking.transfer_proof
                 };
             });
 
@@ -120,41 +123,46 @@ exports.getAllBookings = async (req,res) => {
 exports.getAllBookings2 = async (req,res) => {
     try {
         //sql
-        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_bookings.name, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof
-                    FROM tbl_bookings, tbl_trip
-                    WHERE tbl_bookings.id_destinations = tbl_trip.id `
+        let sql = await  `SELECT tbl_destination.image_url, tbl_destination.name, tbl_destination.price, 
+         tbl_bookings.id_booking, tbl_bookings.id_user, tbl_bookings.id_destinations, tbl_users.name, tbl_bookings.phone,
+         tbl_bookings.address, tbl_bookings.booking_date, tbl_bookings.status, tbl_bookings.transfer_proof  
+         FROM tbl_destination, tbl_bookings, tbl_users
+         WHERE tbl_destination.id = tbl_bookings.id_destinations AND tbl_bookings.id_user = tbl_users.id_user`
 
         //eksekusi query 
         db.query(sql, (error,result) => {
             if (error) {
-                console.log("Terjadi Error di getAllBookings2 controller", error);
+                console.log("Terjadi Error di getAllBookings controller", error);
                 return res.status(500).json({ error: error.message });
             }
 
-            // Transform results
-            const data = result.map(dashboard => {
+            const data = result.map(booking => {
                 let status;
-                if (dashboard.status === 0) {
+                if (booking.status === 0) {
                     status = "Processing";
-                } else if (dashboard.status === 1) {
+                } else if (booking.status === 1) {
                     status = "Delivered";
-                }else if (dashboard.status === 2) {
-                    status = " Cancelled ";
+                } else if (booking.status === 2) {
+                    status = "Cancelled";
                 }
                 return {
-                    destination_name: dashboard.nama_destinasi,
-                    name: dashboard.name,
-                    payment: dashboard.payment,
-                    price: dashboard.price,
+                    id_booking: booking.id_booking,
+                    id_user: booking.id_user,
+                    id_destination: booking.id_destinations,
+                    destination_name: booking.name, 
+                    destination_image: booking.image, 
+                    destination_price: booking.price, 
+                    name: booking.name,
+                    phone: booking.phone,
+                    address: booking.address,
+                    booking_date: booking.booking_date,
                     status: status,
-                    booking_date: dashboard.booking_date,
-                    transfer_proof: dashboard.transfer_proof,
-                    
+                    transfer_proof: booking.transfer_proof
                 };
             });
 
             res.status(200).json({
-                message: "Menampilkan data booking untuk halaman Order Paket Trip",
+                message: "Menampilkan data booking untuk halaman order-paket-trip",
                 data:data
             });
 
@@ -171,46 +179,48 @@ exports.getIdBooking = async (req,res) => {
 
     try {
         //sql
-        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_bookings.name, tbl_bookings.phone, tbl_bookings.address, tbl_users.email, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
-                    FROM tbl_bookings, tbl_trip, tbl_users 
-                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_trip.id AND id_booking = ?`
+        let sql = await  `SELECT tbl_destination.image_url, tbl_destination.name, tbl_destination.price, 
+         tbl_bookings.id_booking, tbl_bookings.id_user, tbl_bookings.id_destinations, tbl_users.name, tbl_bookings.phone,
+         tbl_bookings.address, tbl_bookings.booking_date, tbl_bookings.status, tbl_bookings.transfer_proof  
+         FROM tbl_destination, tbl_bookings, tbl_users
+         WHERE tbl_destination.id = tbl_bookings.id_destinations AND tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_booking = ${id}`
 
         //eksekusi query 
-        db.query(sql, id ,(error,result) => {
+        db.query(sql, (error,result) => {
             if (error) {
-                console.log("Terjadi Error di getIdBookings controller", error);
+                console.log("Terjadi Error di getAllBookings controller", error);
                 return res.status(500).json({ error: error.message });
             }
 
-            // Transform results
-            const data = result.map(dashboard => {
+            const data = result.map(booking => {
                 let status;
-                if (dashboard.status === 0) {
+                if (booking.status === 0) {
                     status = "Processing";
-                } else if (dashboard.status === 1) {
+                } else if (booking.status === 1) {
                     status = "Delivered";
-                }else if (dashboard.status === 2) {
-                    status = " Cancelled ";
+                } else if (booking.status === 2) {
+                    status = "Cancelled";
                 }
                 return {
-                    destination_name: dashboard.nama_Destinasi,
-                    name: dashboard.name,
-                    phone: dashboard.phone,
-                    address: dashboard.address,
-                    email: dashboard.email,
-                    payment: dashboard.payment,
-                    price: dashboard.harga,
+                    id_booking: booking.id_booking,
+                    id_user: booking.id_user,
+                    id_destination: booking.id_destinations,
+                    destination_name: booking.name, 
+                    destination_image: booking.image, 
+                    destination_price: booking.price, 
+                    name: booking.name,
+                    phone: booking.phone,
+                    address: booking.address,
+                    booking_date: booking.booking_date,
                     status: status,
-                    booking_date: dashboard.booking_date,
-                    transfer_proof: dashboard.transfer_proof,
-                    
+                    transfer_proof: booking.transfer_proof
                 };
             });
 
-            res.status(200).json({
-                message: "Menampilkan data booking berdasarkan id",
-                data:data
-            });
+        res.status(200).json({
+            message: "Menampilkan data booking berdasarkan id",
+            data:data
+        });
 
 
         })
@@ -224,47 +234,49 @@ exports.getIdBookingsUser = async (req,res) => {
     id = req.params.id;
 
     try {
-        //sql
-        let sql = await  `SELECT tbl_trip.nama_destinasi, tbl_bookings.name, tbl_bookings.phone, tbl_bookings.address, tbl_users.email, tbl_bookings.payment, tbl_trip.harga ,tbl_bookings.status, tbl_bookings.booking_date, tbl_bookings.transfer_proof 
-                    FROM tbl_bookings, tbl_trip, tbl_users 
-                    WHERE tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_destinations = tbl_trip.id AND tbl_bookings.id_user = ?`
-
-        //eksekusi query 
-        db.query(sql, id ,(error,result) => {
-            if (error) {
-                console.log("Terjadi Error di getIdBookingUser controller", error);
-                return res.status(500).json({ error: error.message });
-            }
-
-            // Transform results
-            const data = result.map(dashboard => {
-                let status;
-                if (dashboard.status === 0) {
-                    status = "Processing";
-                } else if (dashboard.status === 1) {
-                    status = "Delivered";
-                }else if (dashboard.status === 2) {
-                    status = " Cancelled ";
-                }
-                return {
-                    destination_name: dashboard.nama_Destinasi,
-                    name: dashboard.name,
-                    phone: dashboard.phone,
-                    address: dashboard.address,
-                    email: dashboard.email,
-                    payment: dashboard.payment,
-                    price: dashboard.harga,
-                    status: status,
-                    booking_date: dashboard.booking_date,
-                    transfer_proof: dashboard.transfer_proof,
-                    
-                };
-            });
-
-            res.status(200).json({
-                message: "Menampilkan data booking berdasarkan id",
-                data:data
-            });
+         //sql
+         let sql = await  `SELECT tbl_destination.image_url, tbl_destination.name, tbl_destination.price, 
+         tbl_bookings.id_booking, tbl_bookings.id_user, tbl_bookings.id_destinations, tbl_users.name, tbl_bookings.phone,
+         tbl_bookings.address, tbl_bookings.booking_date, tbl_bookings.status, tbl_bookings.transfer_proof  
+         FROM tbl_destination, tbl_bookings, tbl_users
+         WHERE tbl_destination.id = tbl_bookings.id_destinations AND tbl_bookings.id_user = tbl_users.id_user AND tbl_bookings.id_user = ${id}`
+ 
+         //eksekusi query 
+         db.query(sql, (error,result) => {
+             if (error) {
+                 console.log("Terjadi Error di getAllBookings controller", error);
+                 return res.status(500).json({ error: error.message });
+             }
+ 
+             const data = result.map(booking => {
+                 let status;
+                 if (booking.status === 0) {
+                     status = "Processing";
+                 } else if (booking.status === 1) {
+                     status = "Delivered";
+                 } else if (booking.status === 2) {
+                     status = "Cancelled";
+                 }
+                 return {
+                     id_booking: booking.id_booking,
+                     id_user: booking.id_user,
+                     id_destination: booking.id_destinations,
+                     destination_name: booking.name, 
+                     destination_image: booking.image, 
+                     destination_price: booking.price, 
+                     name: booking.name,
+                     phone: booking.phone,
+                     address: booking.address,
+                     booking_date: booking.booking_date,
+                     status: status,
+                     transfer_proof: booking.transfer_proof
+                 };
+             });
+ 
+         res.status(200).json({
+             message: "Menampilkan data booking berdasarkan id",
+             data:data
+         });
 
 
         })

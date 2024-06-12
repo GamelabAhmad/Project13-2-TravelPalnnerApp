@@ -32,7 +32,7 @@ const verifyToken = (req, res, next) => {
 
 const verifyUser = (req,res,next) => {
     verifyToken(req, res , () => {
-        if (req.user.id === req.params.id || req.user.role === 0) {
+        if (req.user.id ===  parseInt(req.params.id) || req.user.role === 0) {
             next();
         }else {
             return res.status(401).json({
@@ -45,7 +45,7 @@ const verifyUser = (req,res,next) => {
 
 const verifyAdmin = (req,res,next) => {
     verifyToken(req, res , () => {
-        if (req.user.id === req.params.id || req.user.role === 1) {
+        if (req.user.id ===  parseInt(req.params.id) || req.user.role === 1) {
             next();
         }else {
             return res.status(401).json({
