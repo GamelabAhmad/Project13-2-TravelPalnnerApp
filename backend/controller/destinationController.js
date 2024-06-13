@@ -107,6 +107,36 @@ exports.getDestinationById = async (req, res) => {
     }
 };
 
+//Menampilkan data berdasarkan lokasi
+exports.getDestinationByLocation = async (req,res) => {
+    try {
+        let lokasi = req.query.lokasi;
+
+        let sql = `SELECT * FROM tbl_destination WHERE location LIKE ?`
+
+        db.query(sql, [`%${lokasi}%`], (error,result) => {
+            if (error) {
+                console.log("Terjadi Error di getDestinationByLocation", error);
+                return res.status(500).json({ error: error.message });
+            }
+
+            if (result.length === 0) {
+                return res.status(404).json({ message: 'Lokasi tidak ditemukan' });
+            }
+
+            res.status(200).json({
+                message: "Berhasil Menemukan Lokasi",
+                data: result,
+            })
+
+        })
+
+
+    } catch (error) {
+        
+    }
+}
+
 // Mengupdate Data Destinasi Berdasarkan ID
 exports.updateDestination = async (req, res) => {
     const id = req.params.id;

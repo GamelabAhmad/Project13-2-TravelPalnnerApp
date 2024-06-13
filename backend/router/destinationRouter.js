@@ -7,6 +7,8 @@ const { verifyAdmin, verifyToken } = require('../middleware/authMiddleware');
 router.post('/', verifyToken, verifyAdmin, destinationController.createDestination);
 // Menampilkan Semua Data Destinasi
 router.get('/', destinationController.getAllDestinations);
+// Menampilkan Data Destinasi Berdasarkan Lokasi
+router.get('/search', destinationController.getDestinationByLocation);
 // Menampilkan Data Destinasi Berdasarkan ID
 router.get('/:id', destinationController.getDestinationById);
 // Update Data Destinasi Berdasarkan ID
