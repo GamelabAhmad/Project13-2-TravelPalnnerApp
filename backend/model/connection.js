@@ -5,15 +5,16 @@ const db = mysql.createConnection({
     host: process.env.host,
     user: process.env.user,
     password: process.env.password,
-    database: process.env.database
+    database: process.env.database,
+    port: 3307 
 });
 
 db.connect((error) => {
     if (error) {
         console.log("Terjadi Error Di Koneksi Database", error)
+    }else {
+        console.log("Berhasil Terkoneksi Ke Database!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     }
-
-    console.log("Berhasil Terkoneksi Ke Database!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
 });
 
 

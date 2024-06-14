@@ -65,3 +65,6 @@ app.use('/destination', destination);
 app.listen(port, () => {
     console.log(`Berjalan di http://localhost:${port}`);
 });
+
+
+module.exports = app;
