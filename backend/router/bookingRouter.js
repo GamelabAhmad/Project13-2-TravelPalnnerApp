@@ -13,10 +13,8 @@ router.delete('/booking/:id', verifyAdmin, bookingController.deleteBooking);
 router.get('/booking/:id', verifyUser, bookingController.getIdBookingsUser)
 //Menampilkan Data Booking untuk halaman dashboard
 router.get('/dashboard', verifyAdmin, bookingController.getAllBookings);
-//Menampilkan Data Booking untuk halaman order paket trip
-router.get('/order-paket-trip', verifyAdmin, bookingController.getAllBookings);
 //Menampilkan Data Booking berdasarkan id
-router.get('/order-paket-trip/:id', verifyAdmin, bookingController.getIdBooking);
+router.get('/dashboard/:id', verifyAdmin, bookingController.getIdBooking);
 
 
 module.exports = router;

@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const tripController = require('../controller/tripController');
-const { verifyAdmin, verifyToken } = require('../middleware/authMiddleware');
+const tripController = require('../controller/tripsController');
+const { verifyAdmin, verifyToken , verifyUser} = require('../middleware/authMiddleware');
 
-// Tambah Data Trip
-router.post('/', verifyToken, verifyAdmin, tripController.createTrip);
-// Menampilkan Semua Data Trip
-router.get('/', tripController.getAlltrip);
-// Menampilkan Data Trip Berdasarkan ID
-router.get('/:id', tripController.getTripById);
-// Update Data Trip Berdasarkan ID
-router.put('/:id', verifyToken, verifyAdmin, tripController.updateTrip);
-// Hapus Data Trip Berdasarkan ID
-router.delete('/:id', verifyToken, verifyAdmin, tripController.deleteTrip);
+//insert trip
+router.post('/addTrip', verifyAdmin, tripController.createTrip);
+//update trip
+router.put('/updateTrip/:id', verifyAdmin, tripController.updateTrip);
+//delete trip
+router.delete('/deleteTrip/:id', verifyAdmin, tripController.deleteTrip);
+//get all trip
+router.get('/trip', tripController.getAllTrips);
+//get trip by id
+router.get('/trip/:id', tripController.getTripsById);
 
 module.exports = router;

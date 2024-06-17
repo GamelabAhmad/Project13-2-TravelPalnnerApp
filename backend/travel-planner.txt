@@ -19,7 +19,7 @@ ColWidths_MainForm.ListStatus<|||>1<|||>160,316,100,100
 ColsVisible_MainForm.ListStatus<|||>1<|||>0,1,2,3
 ColPositions_MainForm.ListStatus<|||>1<|||>0,1,2,3
 ColSort_MainForm.ListStatus<|||>1<|||>0,0
-ColWidths_MainForm.ListProcesses<|||>1<|||>70,80,80,80,80,50,50,593
+ColWidths_MainForm.ListProcesses<|||>1<|||>70,80,80,80,80,50,50,191
 ColsVisible_MainForm.ListProcesses<|||>1<|||>0,1,2,3,4,5,6,7
 ColPositions_MainForm.ListProcesses<|||>1<|||>0,1,2,3,4,5,6,7
 ColSort_MainForm.ListProcesses<|||>1<|||>0,1
@@ -34,7 +34,7 @@ ColSort_MainForm.ListTables<|||>1<|||>0,0
 LastSessions<|||>1<|||>Unnamed
 LastActiveSession<|||>1<|||>Unnamed
 FileDialogEncoding_MainForm<|||>3<|||>0
-sqloutheight<|||>3<|||>216
+sqloutheight<|||>3<|||>183
 MainWinLeft<|||>3<|||>276
 MainWinTop<|||>3<|||>370
 ColWidths_frmTableEditor.listColumns<|||>1<|||>55,100,152,90,60,65,50,116,130,137,100,100
@@ -55,31 +55,31 @@ ColPositions_frmTableEditor.listCheckConstraints<|||>1<|||>0,1
 ColSort_frmTableEditor.listCheckConstraints<|||>1<|||>-1,0
 MainWinMaximized<|||>3<|||>1
 SQLFile0<|||>1<|||>D:\KAMPUS MERDEKA\CPASTONE-PROJECT\Project13-2-TravelPlannerApp\backend\travel-planner(1).sql
-Servers\Unnamed\SessionCreated<|||>1<|||>2024-06-14 14:03:32
-Servers\Unnamed\Host<|||>1<|||>educalab.id
+Servers\Unnamed\SessionCreated<|||>1<|||>2024-06-17 13:24:35
+Servers\Unnamed\Host<|||>1<|||>127.0.0.1
 Servers\Unnamed\WindowsAuth<|||>3<|||>0
 Servers\Unnamed\CleartextPluginEnabled<|||>3<|||>0
-Servers\Unnamed\User<|||>1<|||>pFJR1N0n1yVLWPVI
-Servers\Unnamed\Password<|||>1<|||>727D6849693E713C7D4C6771474C7C746
+Servers\Unnamed\User<|||>1<|||>root
+Servers\Unnamed\Password<|||>1<|||>8
 Servers\Unnamed\LoginPrompt<|||>3<|||>0
-Servers\Unnamed\Port<|||>1<|||>3307
+Servers\Unnamed\Port<|||>1<|||>3306
 Servers\Unnamed\NetType<|||>3<|||>0
 Servers\Unnamed\Compressed<|||>3<|||>0
 Servers\Unnamed\LocalTimeZone<|||>3<|||>0
 Servers\Unnamed\QueryTimeout<|||>3<|||>30
 Servers\Unnamed\KeepAlive<|||>3<|||>20
 Servers\Unnamed\FullTableStatus<|||>3<|||>1
-Servers\Unnamed\Databases<|||>1<|||>uf0ujy9ptPeMfcj0
+Servers\Unnamed\Databases<|||>1<|||>
 Servers\Unnamed\Library<|||>1<|||>libmariadb.dll
-Servers\Unnamed\Comment<|||>1<|||>.Capstone-Project.
+Servers\Unnamed\Comment<|||>1<|||>
 Servers\Unnamed\StartupScriptFilename<|||>1<|||>
 Servers\Unnamed\TreeBackground<|||>3<|||>536870911
 Servers\Unnamed\SSHtunnelActive<|||>3<|||>0
-Servers\Unnamed\SshExecutable<|||>1<|||>plink.exe
+Servers\Unnamed\SshExecutable<|||>1<|||>
 Servers\Unnamed\SSHtunnelHost<|||>1<|||>
 Servers\Unnamed\SSHtunnelHostPort<|||>3<|||>22
 Servers\Unnamed\SSHtunnelUser<|||>1<|||>
-Servers\Unnamed\SSHtunnelPassword<|||>1<|||>4
+Servers\Unnamed\SSHtunnelPassword<|||>1<|||>2
 Servers\Unnamed\SSHtunnelTimeout<|||>3<|||>4
 Servers\Unnamed\SSHtunnelPrivateKey<|||>1<|||>
 Servers\Unnamed\SSHtunnelPort<|||>3<|||>3307
@@ -92,9 +92,3 @@ Servers\Unnamed\IgnoreDatabasePattern<|||>1<|||>
 Servers\Unnamed\LogFileDdl<|||>3<|||>0
 Servers\Unnamed\LogFileDml<|||>3<|||>0
 Servers\Unnamed\LogFilePath<|||>1<|||>C:\Users\Asus\AppData\Roaming\HeidiSQL\Logs\%session\%db\%y%m%d.sql
-Servers\Unnamed\ServerVersionFull<|||>1<|||>8.4.0 - MySQL Community Server - GPL
-Servers\Unnamed\ConnectCount<|||>3<|||>3
-Servers\Unnamed\ServerVersion<|||>3<|||>80400
-Servers\Unnamed\LastConnect<|||>1<|||>2024-06-14 15:18:39
-Servers\Unnamed\lastUsedDB<|||>1<|||>uf0ujy9ptPeMfcj0
-Servers\Unnamed\QueryHistory\1<|||>1<|||>2024-06-14 14:11:48|uf0ujy9ptPeMfcj0|0|SHOW WARNINGS

@@ -1,19 +1,17 @@
 const express = require('express');
 const router = express.Router();
-const destinationController = require('../controller/destinationController');
+const destinationsController = require('../controller/destinationsController');
 const { verifyAdmin, verifyToken } = require('../middleware/authMiddleware');
 
-// Tambah Data Destinasi
-router.post('/', verifyToken, verifyAdmin, destinationController.createDestination);
-// Menampilkan Semua Data Destinasi
-router.get('/', destinationController.getAllDestinations);
-// Menampilkan Data Destinasi Berdasarkan Lokasi
-router.get('/search', destinationController.getDestinationByLocation);
-// Menampilkan Data Destinasi Berdasarkan ID
-router.get('/:id', destinationController.getDestinationById);
-// Update Data Destinasi Berdasarkan ID
-router.put('/:id', verifyToken, verifyAdmin, destinationController.updateDestination);
-// Hapus Data Destinasi Berdasarkan ID
-router.delete('/:id', verifyToken, verifyAdmin, destinationController.deleteDestination);
+//insert destination
+router.post('/addDestinations', verifyAdmin, destinationsController.createDestinations);
+//update destination
+router.put('/updateDestination/:id', verifyAdmin, destinationsController.updateDestination);
+//delete destination
+router.delete('/deleteDestinations/:id', verifyAdmin, destinationsController.deleteDestination);
+//get destinations
+router.get('/destinations', destinationsController.getAllDestination);
+//get destinations by id
+router.get('/destinations/:id', destinationsController.getDestinationById);
 
 module.exports = router;

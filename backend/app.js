@@ -10,6 +10,8 @@ const user = require('./router/userRouter');
 const booking = require('./router/bookingRouter');
 const forgotPassword = require('./router/forgotPasswordRouter');
 const destination = require('./router/destinationRouter');
+const trip = require('./router/tripRouter');
+const prices = require('./router/pricesRouter');
 const path = require('path');
 
 //Express
@@ -21,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use('/transfer_proof', express.static(path.join(__dirname, 'transfer_proof')));
 app.use('/destination', express.static(path.join(__dirname, 'destinations')));
+app.use('/trips', express.static(path.join(__dirname, 'trips')));
 
 // Konfigurasi CORS 
 const corsOptions = {
@@ -59,6 +62,8 @@ app.use('/user', user);
 app.use('/booking', booking);
 app.use('/forgotPassword', forgotPassword);
 app.use('/destination', destination);
+app.use('/trip', trip);
+app.use('/prices', prices);
 
 
 //insisalisasi server
