@@ -60,7 +60,7 @@ exports.getByIdPrices = async (req,res) => {
     try {
         let sql = `SELECT * FROM tbl_prices WHERE id = ?`
 
-        db.query(sql, (error,result) => {
+        db.query(sql, id , (error,result) => {
             if (error) {
                 console.log("Terjadi Error di getByIdPrices controller", error);
                 return res.status(500).json({ error: error.message });
@@ -113,9 +113,9 @@ exports.updatePrices = async (req,res) => {
 exports.deletePrices = async (req,res) => {
     let id = req.params.id;
     try {
-        const sql = `UPDATE tbl_prices SET ? WHERE id ? `;
+        const sql = `DELETE FORM tbl_prices WHERE id ? `;
 
-        db.query(sql, (error, result) => {
+        db.query(sql, id ,(error, result) => {
             if (error) {
                 console.log("Terjadi Error di deletePrices controller", error);
                 return res.status(500).json({ error: error.message });
