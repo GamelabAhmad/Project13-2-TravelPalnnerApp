@@ -19,12 +19,6 @@ router.post('/register', [
 
 router.get('/login', authController.login);
 
-// Rute untuk Google OAuth
-router.get('/google', authController.loginWithGoogle);
-router.get('/google/callback', authController.googleCallback);
-
-// Rute yang membutuhkan verifikasi token
-router.get('/profile', verifyToken, authController.protectedRoute);
 
 //Rute untuk logout
 router.get('/logout', authController.logout);

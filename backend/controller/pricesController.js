@@ -93,7 +93,7 @@ exports.updatePrices = async (req,res) => {
 
         const sql = `UPDATE tbl_prices SET ? WHERE id ? `;
 
-        db.query(sql, values, (error, result) => {
+        db.query(sql, [values, id], (error, result) => {
             if (error) {
                 console.log("Terjadi Error di updatePrices controller", error);
                 return res.status(500).json({ error: error.message });
