@@ -37,6 +37,9 @@ app.use(cookieParser());
 
 
 //middleware rute
+app.get('/', (req,res) => {
+    res.send("TEST")
+});
 app.use('/auth',auth);
 app.use('/user', user);
 app.use('/booking', booking);
