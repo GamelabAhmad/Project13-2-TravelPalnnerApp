@@ -1,13 +1,21 @@
-import React, { useRef, useState } from 'react';
-import styled from 'styled-components';
+import React from 'react';
+import styled from 'styled-components'; // Tambahkan ini
+import Slider from 'react-slick';
+import { Container, Row, Col } from 'react-bootstrap';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const DestinasiSection = styled.section`
   padding: 60px 20px;
   background-color: #f9f9f9;
   text-align: left;
-  padding-left: 100px;
-  padding-right: 100px;
   height: 70vh;
+
+  @media (max-width: 768px) {
+    padding: 40px 10px;
+    height: auto;
+  }
 `;
 
 const SectionTitle = styled.h2`
@@ -21,19 +29,6 @@ const SectionTitle = styled.h2`
   }
 `;
 
-const DestinasiContainer = styled.div`
-  display: flex;
-  overflow: hidden;
-  padding-bottom: 20px;
-  position: relative;
-`;
-
-const CardWrapper = styled.div`
-  display: flex;
-  transition: transform 0.3s ease;
-  width: 100%;
-`;
-
 const Card = styled.a`
   background-color: white;
   border-radius: 8px;
@@ -45,8 +40,7 @@ const Card = styled.a`
   display: flex;
   align-items: center;
   justify-content: center;
-  height: calc(100vw * 9 / 16); /* Maintain 9x16 ratio */
-  max-height: 320px;
+  height: 300px; /* Maintain a fixed height */
   flex-direction: column;
   text-decoration: none;
   color: inherit;
@@ -58,7 +52,9 @@ const Card = styled.a`
   }
 
   @media (max-width: 768px) {
-    flex: 0 0 80%; /* Show 1 card on mobile */
+    height: 200px;
+    flex: 0 0 calc(50% - 20px); /* 2 cards per row on smaller screens */
+    margin: 0 5px;
   }
 `;
 
@@ -70,6 +66,10 @@ const CardImage = styled.img`
   top: 0;
   left: 0;
   z-index: 0;
+
+  @media (max-width: 768px) {
+    object-fit: contain; /* Ensure image is fully visible */
+  }
 `;
 
 const CardTitle = styled.h3`
@@ -90,65 +90,92 @@ const CardContent = styled.div`
   color: white;
 `;
 
-const NavButton = styled.button`
+const destinasiData = [
+  { id: 1, title: 'Bali', image: 'img/destinasi-bali.jpeg', link: '/bali' },
+  { id: 2, title: 'Yogyakarta', image: 'img/destinasi-jogja.jpeg', link: '/yogyakarta' },
+  { id: 3, title: 'Jawa Tengah', image: 'img/destinasi-jawatengah.jpeg', link: '/jateng' },
+  { id: 4, title: 'Jawa Timur', image: 'img/destinasi-jawatimur.jpeg', link: '/jatim' },
+  { id: 5, title: 'Sumatera', image: 'img/destinasi-sumatera.jpeg', link: '/sumatera' },
+  { id: 6, title: 'Nusa Tenggara Timur', image: 'img/destinasi-ntt.jpeg', link: '/ntt' },
+  { id: 7, title: 'Papua', image: 'img/destinasi-ntb.jpeg', link: '/papua' },
+];
+
+// Custom arrow components
+const ArrowButton = styled.button`
+  background: none;
+  border: none;
+  color: #333;
+  font-size: 24px;
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  background-color: rgba(0, 0, 0, 0.5);
-  border: none;
-  border-radius: 50%;
-  color: white;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
+  z-index: 1;
+
+  &:hover {
+    color: #000;
+  }
+
+  &.slick-prev {
+    left: -25px;
+  }
+
+  &.slick-next {
+    right: -25px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 20px;
+
+    &.slick-prev {
+      left: -15px;
+    }
+
+    &.slick-next {
+      right: -15px;
+    }
+  }
 `;
 
-const LeftButton = styled(NavButton)`
-  left: 0;
-`;
-
-const RightButton = styled(NavButton)`
-  right: 0;
-`;
-
-const destinasiData = [
-  { id: 1, title: 'Bali', image: 'img/destinasi-bali.jpeg', link: '/bali' },
-  { id: 2, title: 'Lombok', image: 'img/destinasi-lombok.jpeg', link: '/lombok' },
-  { id: 3, title: 'Yogyakarta', image: 'img/destinasi-jogja.jpeg', link: '/yogyakarta' },
-  { id: 4, title: 'Jawa Tengah', image: 'img/destinasi-jawatengah.jpeg', link: '/rajaampat' },
-  { id: 5, title: 'Jawa Timur', image: 'img/destinasi-jawatimur.jpeg', link: '/bromo' },
-  { id: 6, title: 'Sumatera', image: 'img/destinasi-sumatera.jpeg', link: '/jakarta' },
-  { id: 7, title: 'Nusa Tenggara Timur', image: 'img/destinasi-ntt.jpeg', link: '/bandung' },
-  { id: 8, title: 'Nusa Tenggara Barat', image: 'img/destinasi-ntb.jpeg', link: '/surabaya' },
-];
+const settings = {
+  dots: true,
+  infinite: true,
+  speed: 500,
+  slidesToShow: 4,
+  slidesToScroll: 1,
+  nextArrow: <ArrowButton className="slick-next">{'>'}</ArrowButton>,
+  prevArrow: <ArrowButton className="slick-prev">{'<'}</ArrowButton>,
+  responsive: [
+    {
+      breakpoint: 1024,
+      settings: {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 768,
+      settings: {
+        slidesToShow: 2,
+        slidesToScroll: 1,
+      },
+    },
+    {
+      breakpoint: 480,
+      settings: {
+        slidesToShow: 1,
+        slidesToScroll: 1,
+      },
+    },
+  ],
+};
 
 const Destinasi = () => {
-  const [scrollPosition, setScrollPosition] = useState(0);
-  const containerRef = useRef(null);
-  const totalCards = destinasiData.length;
-  const visibleCards = 4;
-  const cardWidth = 300; 
-
-  const scrollLeft = () => {
-    setScrollPosition((prev) => Math.max(prev - visibleCards * cardWidth, 0));
-  };
-
-  const scrollRight = () => {
-    setScrollPosition((prev) =>
-      Math.min(prev + visibleCards * cardWidth, (totalCards - visibleCards) * cardWidth)
-    );
-  };
-
   return (
     <DestinasiSection>
-      <SectionTitle>Destinasi</SectionTitle>
-      <DestinasiContainer ref={containerRef}>
-        <LeftButton onClick={scrollLeft}>&#9664;</LeftButton>
-        <CardWrapper style={{ transform: `translateX(-${scrollPosition}px)` }}>
+      <Container>
+        <SectionTitle>Destinasi</SectionTitle>
+        <Slider {...settings}>
           {destinasiData.map((destinasi) => (
             <Card key={destinasi.id} href={destinasi.link}>
               <CardImage src={destinasi.image} alt={destinasi.title} />
@@ -157,9 +184,8 @@ const Destinasi = () => {
               </CardContent>
             </Card>
           ))}
-        </CardWrapper>
-        <RightButton onClick={scrollRight}>&#9654;</RightButton>
-      </DestinasiContainer>
+        </Slider>
+      </Container>
     </DestinasiSection>
   );
 };

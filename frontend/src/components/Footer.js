@@ -1,5 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
+import { Container, Row, Col } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const FooterWrapper = styled.footer`
   background-color: #87CEEB;
@@ -54,57 +56,67 @@ const FooterTitle = styled.h2`
 const Footer = () => {
   return (
     <FooterWrapper>
-      <FooterContent>
-        <FooterSection>
-          <FooterImage src="/img/Logo-Travel.png" alt="Visit Indonesia" />
-          <FooterText>Copyright &copy; 2024 Caption Project Travel Planner App</FooterText>
-        </FooterSection>
-        <FooterSection>
-          <FooterTitle>Contact Information</FooterTitle>
-          <FooterList>
-            <FooterListItem>
-              <FooterLink href="https://www.instagram.com">Instagram</FooterLink>
-            </FooterListItem>
-            <FooterListItem>
-              <FooterLink href="mailto:info@travelplanner.com">Email</FooterLink>
-            </FooterListItem>
-            <FooterListItem>
-              <FooterLink href="https://wa.me/1234567890">WhatsApp</FooterLink>
-            </FooterListItem>
-          </FooterList>
-        </FooterSection>
-        <FooterSection>
-          <FooterTitle>Quick Links</FooterTitle>
-          <FooterList>
-            <FooterListItem>
-              <FooterLink href="#home">Home</FooterLink>
-            </FooterListItem>
-            <FooterListItem>
-              <FooterLink href="#paket-trip">Paket Trip</FooterLink>
-            </FooterListItem>
-            <FooterListItem>
-              <FooterLink href="#destinasi">Destinasi</FooterLink>
-            </FooterListItem>
-            <FooterListItem>
-              <FooterLink href="https://www.instagram.com">Instagram</FooterLink>
-            </FooterListItem>
-          </FooterList>
-        </FooterSection>
-        <FooterSection>
-          <FooterTitle>Follow Us</FooterTitle>
-          <FooterList>
-            <FooterListItem>
-              <FooterLink href="https://www.facebook.com">Facebook</FooterLink>
-            </FooterListItem>
-            <FooterListItem>
-              <FooterLink href="https://www.twitter.com">Twitter</FooterLink>
-            </FooterListItem>
-            <FooterListItem>
-              <FooterLink href="https://www.instagram.com">Instagram</FooterLink>
-            </FooterListItem>
-          </FooterList>
-        </FooterSection>
-      </FooterContent>
+      <Container>
+        <FooterContent>
+          <Col md={3} sm={6}>
+            <FooterSection>
+              <FooterImage src="/img/Logo-Travel.png" alt="Visit Indonesia" />
+              <FooterText>Copyright &copy; 2024 Caption Project Travel Planner App</FooterText>
+            </FooterSection>
+          </Col>
+          <Col md={3} sm={6}>
+            <FooterSection>
+              <FooterTitle>Contact Information</FooterTitle>
+              <FooterList>
+                <FooterListItem>
+                  <FooterLink href="https://www.instagram.com">Instagram</FooterLink>
+                </FooterListItem>
+                <FooterListItem>
+                  <FooterLink href="mailto:info@travelplanner.com">Email</FooterLink>
+                </FooterListItem>
+                <FooterListItem>
+                  <FooterLink href="https://wa.me/1234567890">WhatsApp</FooterLink>
+                </FooterListItem>
+              </FooterList>
+            </FooterSection>
+          </Col>
+          <Col md={3} sm={6}>
+            <FooterSection>
+              <FooterTitle>Quick Links</FooterTitle>
+              <FooterList>
+                <FooterListItem>
+                  <FooterLink href="#home">Home</FooterLink>
+                </FooterListItem>
+                <FooterListItem>
+                  <FooterLink href="#paket-trip">Paket Trip</FooterLink>
+                </FooterListItem>
+                <FooterListItem>
+                  <FooterLink href="#destinasi">Destinasi</FooterLink>
+                </FooterListItem>
+                <FooterListItem>
+                  <FooterLink href="https://www.instagram.com">Instagram</FooterLink>
+                </FooterListItem>
+              </FooterList>
+            </FooterSection>
+          </Col>
+          <Col md={3} sm={6}>
+            <FooterSection>
+              <FooterTitle>Follow Us</FooterTitle>
+              <FooterList>
+                <FooterListItem>
+                  <FooterLink href="https://www.facebook.com">Facebook</FooterLink>
+                </FooterListItem>
+                <FooterListItem>
+                  <FooterLink href="https://www.twitter.com">Twitter</FooterLink>
+                </FooterListItem>
+                <FooterListItem>
+                  <FooterLink href="https://www.instagram.com">Instagram</FooterLink>
+                </FooterListItem>
+              </FooterList>
+            </FooterSection>
+          </Col>
+        </FooterContent>
+      </Container>
     </FooterWrapper>
   );
 };

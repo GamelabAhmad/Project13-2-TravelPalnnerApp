@@ -11,6 +11,7 @@ const destination = require('./router/destinationRouter');
 const trip = require('./router/tripRouter');
 const prices = require('./router/pricesRouter');
 const path = require('path');
+const session = require('express-session');
 
 //Express
 const app = express();
@@ -35,6 +36,12 @@ app.use(cors(corsOptions));
 //middleware cookie-parser
 app.use(cookieParser());
 
+// Middleware session
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: true,
+  }));
 
 //middleware rute
 app.get('/', (req,res) => {

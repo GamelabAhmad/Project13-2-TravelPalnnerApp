@@ -1,28 +1,39 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styled from 'styled-components';
+import { Container, Row, Col, Carousel } from 'react-bootstrap';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const InstagramSectionWrapper = styled.div`
   text-align: center;
-  padding: 20px;
+  padding: 20px 0;
   position: relative;
-  padding-left: 80px;
-  padding-right: 80px;
-  height: 50vh;
+  height: auto;
+  background-color: #f9f9f9; /* Added background color for better visual separation */
+`;
+
+const SectionTitle = styled.h2`
+  font-size: 36px;
+  color: #333;
+  margin-bottom: 20px;
+
+  @media (max-width: 768px) {
+    font-size: 28px;
+  }
+`;
+
+const FollowMeText = styled.p`
+  margin-top: 10px;
+  margin-bottom: 40px; /* Added margin bottom for spacing */
+  cursor: pointer;
+
+  @media (max-width: 768px) {
+    margin-bottom: 20px;
+  }
 `;
 
 const ImageWrapper = styled.div`
-  flex: 0 0 auto;
-  width: 25%;
   padding: 0 10px;
   box-sizing: border-box;
-
-  @media (max-width: 1024px) {
-    width: 50%;
-  }
-
-  @media (max-width: 600px) {
-    width: 100%;
-  }
 `;
 
 const Image = styled.img`
@@ -31,87 +42,58 @@ const Image = styled.img`
   object-fit: cover;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-`;
-
-const FollowMeText = styled.p`
-  margin-top: 10px;
-  cursor: pointer;
-`;
-
-const ImagesContainer = styled.div`
-  display: flex;
-  overflow: hidden;
-  scroll-behavior: smooth;
-`;
-
-const Arrow = styled.div`
-  display: block;
-  background: #ddd;
-  color: black;
-  font-size: 20px;
-  line-height: 1;
-  padding: 10px;
-  border-radius: 50%;
-  cursor: pointer;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 2;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    background: #ccc;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   }
 `;
 
-const PrevArrow = styled(Arrow)`
-  left: 10px;
-`;
-
-const NextArrow = styled(Arrow)`
-  right: 10px;
+const StyledCarousel = styled(Carousel)`
+  .carousel-control-prev-icon,
+  .carousel-control-next-icon {
+    filter: invert(1); /* Makes the icons black */
+  }
 `;
 
 const InstagramSection = () => {
-  const [scrollIndex, setScrollIndex] = useState(0);
-  const imageRefs = [];
-
-  const scrollImages = (direction) => {
-    if (direction === 'left' && scrollIndex > 0) {
-      setScrollIndex(scrollIndex - 1);
-      imageRefs[scrollIndex - 1].scrollIntoView({ behavior: 'smooth' });
-    } else if (direction === 'right' && scrollIndex < imageRefs.length - 1) {
-      setScrollIndex(scrollIndex + 1);
-      imageRefs[scrollIndex + 1].scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
   const redirectToInstagram = () => {
-    // Ganti URL dengan URL Instagram Anda
     window.location.href = 'https://www.instagram.com/visitindonesia/';
   };
 
+  const images = [
+    '/img/ig1.jpg',
+    '/img/ig2.jpg',
+    '/img/ig3.jpg',
+    '/img/ig4.jpg',
+    '/img/ig5.jpg',
+    '/img/ig6.jpg',
+    '/img/ig7.jpg',
+    '/img/ig8.jpg',
+  ];
+
   return (
     <InstagramSectionWrapper>
-      <h2>Follow Me Instagram</h2>
-      <FollowMeText onClick={redirectToInstagram}>@visitindonesia</FollowMeText>
-      <PrevArrow onClick={() => scrollImages('left')}>{'<'}</PrevArrow>
-      <ImagesContainer>
-        {[
-          '/img/ig1.jpg',
-          '/img/ig2.jpg',
-          '/img/ig3.jpg',
-          '/img/ig4.jpg',
-          '/img/ig5.jpg',
-          '/img/ig6.jpg',
-          '/img/ig7.jpg',
-          '/img/ig8.jpg',
-        ].map((src, index) => (
-          <ImageWrapper key={index} ref={(el) => (imageRefs[index] = el)}>
-            <Image src={src} alt={`Instagram ${index + 1}`} />
-          </ImageWrapper>
-        ))}
-      </ImagesContainer>
-      <NextArrow onClick={() => scrollImages('right')}>{'>'}</NextArrow>
+      <Container>
+        <SectionTitle>Follow Me Instagram</SectionTitle>
+        <FollowMeText onClick={redirectToInstagram}>@visitindonesia</FollowMeText>
+        <StyledCarousel>
+          {[0, 1, 2].map((pageIndex) => (
+            <Carousel.Item key={pageIndex}>
+              <Row>
+                {images.slice(pageIndex * 4, pageIndex * 4 + 4).map((src, index) => (
+                  <Col key={index} xs={12} md={6} lg={3}>
+                    <ImageWrapper>
+                      <Image src={src} alt={`Instagram ${index + 1}`} />
+                    </ImageWrapper>
+                  </Col>
+                ))}
+              </Row>
+            </Carousel.Item>
+          ))}
+        </StyledCarousel>
+      </Container>
     </InstagramSectionWrapper>
   );
 };

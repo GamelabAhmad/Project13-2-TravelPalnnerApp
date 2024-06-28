@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const RegisterContainer = styled.div`
   display: flex;
@@ -9,6 +10,7 @@ const RegisterContainer = styled.div`
   justify-content: center;
   height: 100vh;
   background-color: #f0f0f0;
+  margin-top: 3.5rem;
 `;
 
 const RegisterBox = styled.div`
@@ -50,14 +52,40 @@ const Button = styled.button`
 `;
 
 const Register = () => {
+  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleRegister = () => {
-    alert(`Registering with Name: ${name}, Phone: ${phone}, Address: ${address}, Email: ${email}`);
+  const handleRegister = async() => {
+    try {
+      
+      // alert(`Registering with Name: ${name}, Phone: ${phone}, Address: ${address}, Email: ${email}`);
+      const response = await axios.post('http://localhost:8943/auth/register', {
+        name, phone, address, email, password
+      });
+
+      // Redirect ke halaman login setelah berhasil registrasi
+      if (response.status === 201) {
+        navigate('/login');
+      }
+      console.log('register successful', response.data);
+    } catch (err) {
+      // set error untuk menampilkan pesan error
+      if (err.response && err.response.status === 400) {
+        const newErrors = {};
+        err.response.data.errors.forEach((er) => {
+          console.log(er)
+            newErrors[er.param] = er.msg;
+        });
+          setErrors(newErrors);
+      } else {
+          console.error(err);
+      }
+    }      
   };
 
   const handleGoogleRegister = () => {
@@ -80,6 +108,8 @@ const Register = () => {
           value={phone} 
           onChange={(e) => setPhone(e.target.value)} 
         />
+        {errors.phone && <span style={{ color: 'red' }}>{errors.phone}</span>}
+
         <Input 
           type="text" 
           placeholder="Address" 
@@ -92,12 +122,16 @@ const Register = () => {
           value={email} 
           onChange={(e) => setEmail(e.target.value)} 
         />
+        {errors.email && <span style={{ color: 'red' }}>{errors.email}</span>}
+
         <Input 
           type="password" 
           placeholder="Password" 
           value={password} 
           onChange={(e) => setPassword(e.target.value)} 
         />
+        {errors.password && <span style={{ color: 'red' }}>{errors.password}</span>}
+
         <Button onClick={handleRegister}>Register</Button>
         <Button onClick={handleGoogleRegister}>Register with Google</Button>
         <p>

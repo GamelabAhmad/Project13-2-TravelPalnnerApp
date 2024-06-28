@@ -1,6 +1,10 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
+import React, { useState } from 'react'; // Tambahkan ini
+import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Cookies from 'js-cookie';
+import styled from 'styled-components';
+import { parseJwt } from '../utils/parseJwt';
+import getBaseUrl from '../utils/getBaseUrl';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -50,11 +54,28 @@ const Button = styled.button`
 `;
 
 const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(''); // Ini sudah ada, tapi perlu impor useState di bagian atas
+  const [password, setPassword] = useState(''); // Ini juga sudah ada
 
-  const handleLogin = () => {
-    alert(`Logging in with Email: ${email}`);
+  const handleLogin = async () => {
+    try {
+      const res = await axios.post('http://localhost:8943/auth/login', {
+        email,
+        password
+      });
+      // Lakukan sesuatu dengan respons, misalnya menyimpan token atau mengarahkan pengguna
+      if(res.status === 200){
+        const now = Date.now() / 1000;
+        const exp = parseJwt(res.data.token).exp;
+        const expiryDate = (exp - now) / 3600;
+        Cookies.set('accessToken', res.data.token, { expires: expiryDate }); // Set token  cookie
+        res.data && (window.location.href = getBaseUrl() + '/')
+      }
+    } catch (error) {
+      console.error('Login failed', error);
+      throw error;
+      // Tangani error, misalnya menampilkan pesan error kepada pengguna
+    }
   };
 
   const handleGoogleLogin = () => {

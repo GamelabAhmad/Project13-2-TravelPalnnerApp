@@ -17,10 +17,10 @@ router.post('/register', [
     next();}
 ,authController.register);
 
-router.get('/login', authController.login);
+router.post('/login', authController.login);
 
 
 //Rute untuk logout
-router.get('/logout', authController.logout);
+router.post('/logout', authController.logout);
 
 module.exports = router;
