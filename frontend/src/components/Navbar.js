@@ -85,7 +85,7 @@ const NavbarComponent = () => {
 
   const handleLogOut = async() => {
    try {
-    const res = await axios.post('http://localhost:3001/auth/logout',{});
+    const res = await axios.post('http://localhost:8943/auth/logout',{});
     if(res.status === 200){
       Cookies.remove('accessToken');
       setUser(null);
